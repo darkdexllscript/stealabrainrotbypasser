@@ -1,0 +1,160 @@
+-- Splash Screen
+local splash = Instance.new("ScreenGui", game.CoreGui)
+splash.ResetOnSpawn = false
+local splashText = Instance.new("TextLabel", splash)
+
+splashText.Size = UDim2.new(1, 0, 1, 0)
+splashText.Text = "MADE BY DARKDEX X LURK"
+splashText.TextColor3 = Color3.fromRGB(255, 255, 255)
+splashText.TextStrokeTransparency = 0
+splashText.TextScaled = true
+splashText.Font = Enum.Font.GothamBold
+splashText.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+splashText.BackgroundTransparency = 0
+
+wait(2)
+splash:Destroy()
+
+-- Main GUI
+local gui = Instance.new("ScreenGui", game.CoreGui)
+gui.Name = "DarkdexLoader"
+
+local frame = Instance.new("Frame", gui)
+frame.Size = UDim2.new(0, 400, 0, 250)
+frame.Position = UDim2.new(0.5, -200, 0.5, -125)
+frame.AnchorPoint = Vector2.new(0.5, 0.5)
+frame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+frame.BorderSizePixel = 0
+frame.BackgroundTransparency = 0.05
+
+local uicorner = Instance.new("UICorner", frame)
+uicorner.CornerRadius = UDim.new(0, 12)
+
+-- Launch Animation
+frame.Position = UDim2.new(0.5, -200, 0.5, -400)
+frame:TweenPosition(UDim2.new(0.5, -200, 0.5, -125), "Out", "Sine", 0.5, true)
+
+-- Dragging (Mobile & PC)
+local dragging, dragInput, dragStart, startPos
+
+frame.InputBegan:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+		dragging = true
+		dragStart = input.Position
+		startPos = frame.Position
+		input.Changed:Connect(function()
+			if input.UserInputState == Enum.UserInputState.End then
+				dragging = false
+			end
+		end)
+	end
+end)
+
+frame.InputChanged:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+		dragInput = input
+	end
+end)
+
+game:GetService("UserInputService").InputChanged:Connect(function(input)
+	if input == dragInput and dragging then
+		local delta = input.Position - dragStart
+		frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+	end
+end)
+
+-- Close Button
+local closeBtn = Instance.new("TextButton", frame)
+closeBtn.Size = UDim2.new(0, 30, 0, 30)
+closeBtn.Position = UDim2.new(1, -35, 0, 5)
+closeBtn.Text = "✕"
+closeBtn.TextScaled = true
+closeBtn.Font = Enum.Font.GothamBold
+closeBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+closeBtn.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+local closeUICorner = Instance.new("UICorner", closeBtn)
+closeUICorner.CornerRadius = UDim.new(0, 6)
+
+-- Toggle Button
+local toggleBtn = Instance.new("TextButton", gui)
+toggleBtn.Size = UDim2.new(0, 40, 0, 40)
+toggleBtn.Position = UDim2.new(0, 10, 0.5, -20)
+toggleBtn.Text = "+"
+toggleBtn.TextScaled = true
+toggleBtn.Font = Enum.Font.GothamBold
+toggleBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+toggleBtn.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+toggleBtn.Visible = false
+local toggleUICorner = Instance.new("UICorner", toggleBtn)
+toggleUICorner.CornerRadius = UDim.new(0, 8)
+
+closeBtn.MouseButton1Click:Connect(function()
+	frame.Visible = false
+	toggleBtn.Visible = true
+end)
+
+toggleBtn.MouseButton1Click:Connect(function()
+	frame.Visible = true
+	toggleBtn.Visible = false
+end)
+
+-- Run Script Button
+local runBtn = Instance.new("TextButton", frame)
+runBtn.Size = UDim2.new(0.6, 0, 0.25, 0)
+runBtn.Position = UDim2.new(0.2, 0, 0.25, 0)
+runBtn.Text = "RUN SCRIPT"
+runBtn.Font = Enum.Font.GothamBold
+runBtn.TextScaled = true
+runBtn.TextColor3 = Color3.new(1,1,1)
+runBtn.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+runBtn.BorderSizePixel = 0
+local btnCorner = Instance.new("UICorner", runBtn)
+btnCorner.CornerRadius = UDim.new(0, 8)
+
+spawn(function()
+	while true do
+		for i = 0, 1, 0.01 do
+			runBtn.BackgroundColor3 = Color3.fromHSV(i, 1, 1)
+			wait(0.03)
+		end
+	end
+end)
+
+-- Made by Darkdex Label (animated)
+local label1 = Instance.new("TextLabel", frame)
+label1.Size = UDim2.new(1, 0, 0.2, 0)
+label1.Position = UDim2.new(0, 0, 0.65, 0)
+label1.Text = "MADE BY DARKDEX"
+label1.Font = Enum.Font.GothamBold
+label1.TextScaled = true
+label1.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+label1.TextColor3 = Color3.new(1, 1, 1)
+local label1corner = Instance.new("UICorner", label1)
+label1corner.CornerRadius = UDim.new(0, 8)
+
+spawn(function()
+	while true do
+		for i = 0, 1, 0.01 do
+			label1.BackgroundColor3 = Color3.fromHSV(i, 0.4, 0.2)
+			label1.TextColor3 = Color3.fromHSV(i, 1, 1)
+			wait(0.05)
+		end
+	end
+end)
+
+-- Lurk V3 Script label
+local label2 = Instance.new("TextLabel", frame)
+label2.Size = UDim2.new(1, 0, 0.15, 0)
+label2.Position = UDim2.new(0, 0, 0.83, 0)
+label2.Text = "Lurk V3 Script (Not my script)"
+label2.TextColor3 = Color3.fromRGB(130, 130, 130)
+label2.Font = Enum.Font.Gotham
+label2.TextScaled = true
+label2.BackgroundTransparency = 1
+
+-- Script Execution
+runBtn.MouseButton1Click:Connect(function()
+	pcall(function()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/egor2078f/Lurkv3/refs/heads/main/main.lua", true))()
+	end)
+end)
